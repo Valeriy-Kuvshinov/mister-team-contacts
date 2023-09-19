@@ -1,0 +1,18 @@
+body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.app {
+    margin: -10px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: lightblue;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-view {
+    padding: 10px;
+}
