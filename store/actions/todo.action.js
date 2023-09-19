@@ -33,7 +33,6 @@ export function addTodo() {
 
 }
 
-
 export function saveTodo(todo) {
     const type = todo._id ? UPDATE_TEAM : ADD_TEAM
     return todoService.save(todo)
