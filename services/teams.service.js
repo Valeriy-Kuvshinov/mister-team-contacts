@@ -20,15 +20,6 @@ export const teamsService = {
     getEmptyTeamMember
 }
 
-// function query(filterBy = {}) {
-//     if (!filterBy.teamName) filterBy.teamName = ''
-//     const regExp = new RegExp(filterBy.teamName)
-
-//     return storageService.query(TEAM_KEY)
-//         .then(teams => {
-//             return teams.filter(team => regExp.test(team.teamName))
-//         })
-// }
 function query(filterBy = {}) {
     if (!filterBy.teamName) filterBy.teamName = ''
     if (!filterBy.memberName) filterBy.memberName = ''
