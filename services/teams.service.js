@@ -2,7 +2,7 @@ import { utilService } from "./util.service.js"
 import { storageService } from './async-storage.service.js'
 
 const TEAM_KEY = 'teamsDB'
-var gFilterBy = 'all'
+var gFilterBy = { teamName: '', memberName: '', sortKey: '' }
 _initTeams()
 console.log("Teams Service file loaded")
 
@@ -15,15 +15,44 @@ export const teamsService = {
     getDefaultFilter,
     setFilterBy,
     resetFilter,
+    addMember,
+    removeMember,
+    getEmptyTeamMember
 }
 
+// function query(filterBy = {}) {
+//     if (!filterBy.teamName) filterBy.teamName = ''
+//     const regExp = new RegExp(filterBy.teamName)
+
+//     return storageService.query(TEAM_KEY)
+//         .then(teams => {
+//             return teams.filter(team => regExp.test(team.teamName))
+//         })
+// }
 function query(filterBy = {}) {
     if (!filterBy.teamName) filterBy.teamName = ''
-    const regExp = new RegExp(filterBy.teamName)
+    if (!filterBy.memberName) filterBy.memberName = ''
+    if (!filterBy.sortKey) filterBy.sortKey = ''
+
+    const teamRegExp = new RegExp(filterBy.teamName, 'i')
+    const memberRegExp = new RegExp(filterBy.memberName, 'i')
 
     return storageService.query(TEAM_KEY)
         .then(teams => {
-            return teams.filter(team => regExp.test(team.teamName))
+            const filteredTeams = teams.filter(team => teamRegExp.test(team.teamName))
+            filteredTeams.forEach(team => {
+                if (filterBy.memberName) {
+                    team.teamMembers = team.teamMembers.filter(member => memberRegExp.test(member.name))
+                }
+                if (filterBy.sortKey) {
+                    team.teamMembers.sort((a, b) => {
+                        if (a[filterBy.sortKey] < b[filterBy.sortKey]) return -1
+                        if (a[filterBy.sortKey] > b[filterBy.sortKey]) return 1
+                        return 0
+                    })
+                }
+            })
+            return filteredTeams
         })
 }
 
@@ -51,14 +80,44 @@ function getEmptyTeam(teamName = 'TeamName') {
     }
 }
 
-function getDefaultFilter() {
-    return { teamName: '' }
+function setFilterBy(newFilterBy) {
+    gFilterBy = newFilterBy
 }
 
-function setFilterBy(filterType = '') {
+function getDefaultFilter() {
+    return { teamName: '', memberName: '', sortKey: '' }
 }
 
 function resetFilter() {
+    gFilterBy = { teamName: '', memberName: '', sortKey: '' }
+}
+
+function getEmptyTeamMember(name = "teamMember") {
+    return {
+        name: "",
+        email: "",
+        phoneNumber: "",
+        _id: "",
+        desc: ""
+    }
+}
+
+function addMember(teamId, newMember) {
+    return get(teamId).then((team) => {
+        newMember._id = utilService.makeId()
+        team.teamMembers.push(newMember)
+        return save(team)
+    })
+}
+
+function removeMember(teamId, memberId) {
+    return get(teamId).then((team) => {
+        const memberIdx = team.teamMembers.findIndex((m) => m._id === memberId)
+        if (memberIdx > -1) {
+            team.teamMembers.splice(memberIdx, 1)
+            return save(team)
+        }
+    })
 }
 
 function _initTeams() {
