@@ -1,9 +1,9 @@
 const { Link } = ReactRouterDOM
 
-export function TodoPreview({teamId,member,onRemoveTeam}){
+export function TodoPreview({teamId,member,onRemoveMember}){
 
-    function removeTeam(){
-        onRemoveTeam(member._id)
+    function removeMember(){
+        onRemoveMember(member._id)
     }
     
     return (
@@ -15,7 +15,7 @@ export function TodoPreview({teamId,member,onRemoveTeam}){
                     <div>{member.phoneNumber}</div>
                     </Link>
                 </span>
-                <button onClick={removeTeam}>X</button>
+                <button onClick={removeMember}>X</button>
               </section>
     )
 }

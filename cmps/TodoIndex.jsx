@@ -25,7 +25,7 @@ export function TodoIndex() {
       })
   }, [filterBy])
 
-  function onRemoveTeam(todoId) {
+  function onRemoveMember(todoId) {
     removeTeam(todoId)
       .then(() => {
         console.log("todo is gone")
@@ -35,8 +35,8 @@ export function TodoIndex() {
       })
   }
 
-  function onAddTeam() {
-    const todoToSave = teamsService.getEmptyTeam()
+  function onAddMember() {
+    const todoToSave = teamsService.getEmptyTeamMember()
     addTeam(todoToSave)
       .then(() => {
         console.log("todo is here")
@@ -53,8 +53,8 @@ export function TodoIndex() {
       <TodoList
         teams={teams}
         // confirmChange={changeTodoConfirm}
-        onRemoveTeam={onRemoveTeam}
-        onAddTeam={onAddTeam}
+        onRemoveMember={onRemoveMember}
+        onAddMember={onAddMember}
       />
     </section>
   )
