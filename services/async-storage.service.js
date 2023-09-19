@@ -29,12 +29,11 @@ function post(entityType, newEntity) {
     })
 }
 
-function put(entityType, updatedEntity) {
+function put(entityType, updatedEntity, entityPlacement) {
     return query(entityType).then(entities => {
-        console.log(entities)
-        const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+        const idx = entities[entityPlacement].teamMembers.findIndex(entity => entity._id === updatedEntity._id)
         if (idx < 0) throw new Error(`Update failed, cannot find entity with id: 1 in: ${entityType}`)
-        entities.splice(idx, 1, updatedEntity)
+        entities[entityPlacement].teamMembers.splice(idx, 1, updatedEntity)
         _save(entityType, entities)
         return updatedEntity
     })

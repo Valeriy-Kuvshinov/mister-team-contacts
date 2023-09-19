@@ -29,11 +29,6 @@ function remove(memberId) {
 }
 
 function save(teamIdx,member) {
-    console.log('idk',storageService.query(TEAM_KEY))
-    if (member._id) {
-        return storageService.put(TEAM_KEY, member)
-    } else {
-        return storageService.post(TEAM_KEY, member)
-    }
+    return storageService.put(TEAM_KEY, member, teamIdx)
 }
 
