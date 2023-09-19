@@ -2,7 +2,7 @@ const { useEffect, useState, useRef} = React
 
 const { useSelector, useDispatch } = ReactRedux
 
-import { SET_TODOS } from "../store/reducers/todo.reducer.js"
+import { SET_TEAMS } from "../store/reducers/todo.reducer.js"
 
 import { todoService } from "../services/todo.service.js"
 
@@ -15,7 +15,7 @@ export function AppHeader(){
     useEffect(() => {
         todoService.query()
             .then(todos => {
-                dispatch({ type: SET_TODOS, todos })
+                dispatch({ type: SET_TEAMS, todos })
             })
     }, [progress])
 

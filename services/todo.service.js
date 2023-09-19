@@ -1,6 +1,6 @@
 import { utilService } from "./util.service.js"
 import { storageService } from './async-storage.service.js'
-const TODO_KEY = 'todoDB'
+const TEAM_KEY = 'todoDB'
 var gFilterBy = 'all'
 _createTodos()
 
@@ -21,7 +21,7 @@ function query(filterBy = {}) {
     const regExp1 = new RegExp(filterBy.title)
     const regExp2 = new RegExp(filterBy.subject)
     // console.log(regExp)
-    return storageService.query(TODO_KEY)
+    return storageService.query(TEAM_KEY)
         .then(todos => {
             // if (gFilterBy === 'active') {
             //     todos = todos.filter(todo => !todo.isCompleted)
@@ -39,7 +39,7 @@ function query(filterBy = {}) {
 
 
 function get(todoId) {
-    return storageService.get(TODO_KEY, todoId)
+    return storageService.get(TEAM_KEY, todoId)
         .then((todo) => {
             // todo = _setNextPrevTodoId(todo)
             return todo
@@ -47,14 +47,14 @@ function get(todoId) {
 }
 
 function remove(todoId) {
-    return storageService.remove(TODO_KEY, todoId)
+    return storageService.remove(TEAM_KEY, todoId)
 }
 
 function save(todo) {
     if (todo._id) {
-        return storageService.put(TODO_KEY, todo)
+        return storageService.put(TEAM_KEY, todo)
     } else {
-        return storageService.post(TODO_KEY, todo)
+        return storageService.post(TEAM_KEY, todo)
     }
 }
 
@@ -86,13 +86,13 @@ function getEmptyTodo(title='title', subject='subject') {
 
 function _createTodos() {
     // console.log('todo created')
-    let todos = utilService.loadFromStorage(TODO_KEY)
+    let todos = utilService.loadFromStorage(TEAM_KEY)
     if (!todos || !todos.length) {
         todos = []
         todos.push(_createTodo( 'wash the bread', 'wash the bread until its clean' ))
         todos.push(_createTodo( 'be bready' , 'become one with bread' ))
         todos.push(_createTodo( 'date the bread' , 'build your breadlationship with bread' ))
-        utilService.saveToStorage(TODO_KEY, todos)
+        utilService.saveToStorage(TEAM_KEY, todos)
     }
 }
 

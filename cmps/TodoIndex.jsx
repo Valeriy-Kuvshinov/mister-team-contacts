@@ -7,21 +7,21 @@ import { TodoList } from "./TodoList.jsx"
 import { AppHeader } from "./AppHeader.jsx"
 
 import { addTodo, removeTodo, saveTodo } from "../store/actions/todo.action.js"
-import { SET_TODOS,SET_FILTER_BY,UPDATE_TODO } from "../store/reducers/todo.reducer.js"
+import { SET_TEAMS,SET_FILTER_BY,UPDATE_TEAM } from "../store/reducers/todo.reducer.js"
 import { TodoFilter } from "./TodoFilter.jsx"
 
 export function TodoIndex() {
   const dispatch = useDispatch()
-  // TODO: move to storeState
+  // TEAM: move to storeState
   const filterBy = useSelector(storeState => storeState.todoModule.filterBy)
   const todos = useSelector((storeState) => storeState.todoModule.todos)
 
   useEffect(() => {
     todoService
     .query(filterBy)
-      // TODO: use dispatch
+      // TEAM: use dispatch
       .then((todos) => {
-        dispatch({ type: SET_TODOS, todos })
+        dispatch({ type: SET_TEAMS, todos })
       })
   }, [filterBy])
 
@@ -51,7 +51,7 @@ export function TodoIndex() {
     todo.isCompleted = !todo.isCompleted
     const newTodo = { ...todo }
     todoService.save(newTodo).then(() => {
-      dispatch({ type: UPDATE_TODO, todo: newTodo })
+      dispatch({ type: UPDATE_TEAM, todo: newTodo })
     })
   }
 
