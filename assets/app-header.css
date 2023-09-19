@@ -1,0 +1,19 @@
+.todo-header{
+    background-color: orange;
+    border: 1px solid black;
+    display: flex;
+}
+.progress-bar{
+    height: 20px;
+    width:100px;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+}
+.progress{
+    height: 100%;
+    width:0;
+    background-color: red;
+    border-radius: 10px;
+    transition: width 1s;
+}

@@ -1,0 +1,4 @@
+.todo-details{
+    display: flex;
+    flex-direction: column;
+}
