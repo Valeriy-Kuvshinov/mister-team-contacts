@@ -5,7 +5,7 @@ const { Provider } = ReactRedux
 import { TodoService } from './services/todo.service.js'
 // import { AppHeader } from './cmps/AppHeader.jsx'
 // import { AppFooter } from './cmps/AppFooter.jsx'
-
+import { teamsService } from './services/teams.service.js'
 import { HomePage } from './pages/HomePage.jsx'
 import { TodoDetails } from './cmps/TodoDetails.jsx'
 // import { AboutUs } from './pages/AboutUs.jsx'

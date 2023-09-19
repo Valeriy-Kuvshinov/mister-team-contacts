@@ -3,9 +3,8 @@ import { storageService } from './async-storage.service.js'
 
 const TEAM_KEY = 'teamsDB'
 var gFilterBy = 'all'
-
-let team1 = _initTeams()
-console.log(team1)
+_initTeams()
+console.log("Teams Service file loaded")
 
 export const teamsService = {
     query,
@@ -63,6 +62,7 @@ function resetFilter() {
 }
 
 function _initTeams() {
+    console.log('Running _initTeams')
     storageService.query(TEAM_KEY).then(teams => {
         if (!teams || !teams.length) {
             const initialTeam = {
@@ -72,25 +72,29 @@ function _initTeams() {
                         name: "breadrico",
                         email: "breadrico23@gmail.com",
                         phoneNumber: "053-0962835",
-                        _id: "1"
+                        _id: "1",
+                        desc: "very trustworthy"
                     },
                     {
                         name: "breadishia",
                         email: "breadishiaisaweseome@gmail.com",
                         phoneNumber: "057-2461842",
-                        _id: "2"
+                        _id: "2",
+                        desc: "always bready"
                     },
                     {
                         name: "breadson",
                         email: "breadson@gmail.com",
                         phoneNumber: "055-2846321",
-                        _id: "3"
+                        _id: "3",
+                        desc: "here he go!"
                     },
                     {
                         name: "bready",
                         email: "breadson@hotmail.com",
                         phoneNumber: "055-2846311",
-                        _id: "4"
+                        _id: "4",
+                        desc: "look up!"
                     }
                 ]
             }
