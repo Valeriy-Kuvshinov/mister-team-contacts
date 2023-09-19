@@ -5,8 +5,8 @@ import { ADD_TEAM, REMOVE_TEAM, UPDATE_TEAM } from "../reducers/teams.reducer.js
 
 import { store } from "../store.js"
 
-export function removeTeam(teamId) {
-    return teamsService.remove(teamId)
+export function removeTeam(teamId,memberId) {
+    return teamsService.removeMember(teamId,memberId)
         .then(() => {
             // showSuccessMsg('Team removed')
             store.dispatch({ type: REMOVE_TEAM, teamId })

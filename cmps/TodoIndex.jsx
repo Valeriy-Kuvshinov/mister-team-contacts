@@ -25,8 +25,9 @@ export function TodoIndex() {
       })
   }, [filterBy])
 
-  function onRemoveMember(todoId) {
-    removeTeam(todoId)
+  function onRemoveMember(memberId) {
+    // teamsService.removeMember(teams[0]._id,memberId)
+    removeTeam(teams[0]._id,memberId)
       .then(() => {
         console.log("todo is gone")
       })

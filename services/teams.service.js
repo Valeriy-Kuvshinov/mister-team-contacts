@@ -55,13 +55,13 @@ function remove(teamId) {
     return storageService.remove(TEAM_KEY, teamId)
 }
 
-function save(member) {
-    console.log(member)
-    if (member._id) {
-        return storageService.put(TEAM_KEY, member)
-    } else {
-        return storageService.post(TEAM_KEY, member)
-    }
+function save(team) {
+    console.log(team)
+    // if (team._id) {
+        return storageService.put2(TEAM_KEY, team)
+    // } else {
+    //     return storageService.post(TEAM_KEY, team)
+    // }
 }
 
 function getEmptyTeam(teamName = 'TeamName') {
@@ -86,9 +86,9 @@ function resetFilter() {
 
 function getEmptyTeamMember(name = "teamMember") {
     return {
-        name: "",
-        email: "",
-        phoneNumber: "",
+        name: "name",
+        email: "email",
+        phoneNumber: "number",
         _id: "",
         desc: ""
     }
@@ -118,6 +118,7 @@ function _initTeams() {
         if (!teams || !teams.length) {
             const initialTeam = {
                 teamName: "team1",
+                teamDescription:'description',
                 teamMembers: [
                     {
                         name: "breadrico",

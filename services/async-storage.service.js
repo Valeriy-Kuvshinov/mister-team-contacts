@@ -3,6 +3,7 @@ export const storageService = {
     get,
     post,
     put,
+    put2,
     remove,
 }
 
@@ -39,6 +40,15 @@ function put(entityType, updatedEntity, entityPlacement) {
     })
 }
 
+function put2(entityType, updatedEntity) {
+    return query(entityType).then(entities => {
+        const idx = entities.findIndex(entity => entity._id === updatedEntity._id)
+        if (idx < 0) throw new Error(`Update failed, cannot find entity with id: 1 in: ${entityType}`)
+        entities.splice(idx, 1, updatedEntity)
+        _save(entityType, entities)
+        return updatedEntity
+    })
+}
 function remove(entityType, entityId) {
     return query(entityType).then(entities => {
         const idx = entities.findIndex(entity => entity._id === entityId)

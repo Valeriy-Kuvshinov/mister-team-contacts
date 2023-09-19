@@ -42,8 +42,8 @@ export function MemberDetails(){
         console.log('changed')
         const newMember={...member}
         memberService.save(teamIdx,newMember)
-        .then(()=>{
-        dispatch({type:UPDATE_TEAM, team: newTeam})})
+        // .then(()=>{
+        // dispatch({type:UPDATE_TEAM, team: newTeam})})
     }
 
     setTimeout(showDetails,10)
