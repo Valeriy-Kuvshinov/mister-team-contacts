@@ -4,11 +4,11 @@ const { useSelector, useDispatch } = ReactRedux
 
 const { useParams } = ReactRouterDOM
 
-import { SET_TODOS } from "../store/store.js"
+import { SET_TEAMS } from "../store/store.js"
 
 import { todoService } from "../services/todo.service.js"
 
-import { UPDATE_TODO } from "../store/reducers/todo.reducer.js"
+import { UPDATE_TEAM } from "../store/reducers/todo.reducer.js"
 
 export function TodoDetails(){
 
@@ -18,9 +18,9 @@ export function TodoDetails(){
 
     useEffect(() => {
         todoService.query()
-            // TODO: use dispatch
+            // TEAM: use dispatch
             .then(todos => {
-                dispatch({ type: SET_TODOS, todos })
+                dispatch({ type: SET_TEAMS, todos })
             })
     }, [])
 
@@ -47,7 +47,7 @@ export function TodoDetails(){
         const newTodo={...todo}
         todoService.save(newTodo)
         .then(()=>{
-        dispatch({type:UPDATE_TODO, todo: newTodo})})
+        dispatch({type:UPDATE_TEAM, todo: newTodo})})
     }
 
     // showDetails()

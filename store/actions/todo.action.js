@@ -1,6 +1,6 @@
 import { todoService } from "../../services/todo.service.js"
 
-import { ADD_TODO, REMOVE_TODO, UPDATE_TODO } from "../reducers/todo.reducer.js"
+import { ADD_TEAM, REMOVE_TEAM, UPDATE_TEAM } from "../reducers/todo.reducer.js"
 
 import { store } from "../store.js"
 
@@ -8,7 +8,7 @@ export function removeTodo(todoId) {
     return todoService.remove(todoId)
         .then(() => {
             // showSuccessMsg('Todo removed')
-            store.dispatch({ type: REMOVE_TODO, todoId })
+            store.dispatch({ type: REMOVE_TEAM, todoId })
         })
         .catch(err => {
             console.log('Cannot remove todo', err)
@@ -21,7 +21,7 @@ export function addTodo() {
 
     return todoService.save(todoToSave)
         .then((savedTodo) => {
-            store.dispatch({ type: ADD_TODO, todo: savedTodo })
+            store.dispatch({ type: ADD_TEAM, todo: savedTodo })
             // showSuccessMsg(`Todo added (id: ${savedTodo._id})`)
 
         })
@@ -35,7 +35,7 @@ export function addTodo() {
 
 
 export function saveTodo(todo) {
-    const type = todo._id ? UPDATE_TODO : ADD_TODO
+    const type = todo._id ? UPDATE_TEAM : ADD_TEAM
     return todoService.save(todo)
         .then(todoToSave => {
             store.dispatch({ type, todo: todoToSave })

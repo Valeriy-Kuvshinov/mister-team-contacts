@@ -6,7 +6,7 @@ const { useSelector, useDispatch } = ReactRedux
 import { TodoPreview } from "./TodoPreview.jsx"
 import { todoService } from "../services/todo.service.js"
 import { store } from "../store/store.js"
-import { ADD_TODO } from "../store/reducers/todo.reducer.js"
+import { ADD_TEAM } from "../store/reducers/todo.reducer.js"
 
 export function TodoList({todos, confirmChange, onAddTodo, onRemoveTodo}){
    const dispatch = useDispatch()
@@ -23,7 +23,7 @@ export function TodoList({todos, confirmChange, onAddTodo, onRemoveTodo}){
       const newTodo=todoService.getEmptyTodo()
       todoService.save(newTodo)
         .then((savedTodo) => {
-            store.dispatch({ type: ADD_TODO, todo: savedTodo })
+            store.dispatch({ type: ADD_TEAM, todo: savedTodo })
             // showSuccessMsg(`Todo added (id: ${savedTodo._id})`)
 
         })
