@@ -1,4 +1,4 @@
-const { useEffect, useState, useRef} = React
+const { useEffect, useState, useRef } = React
 
 const { useSelector, useDispatch } = ReactRedux
 
@@ -6,9 +6,9 @@ import { SET_TEAMS } from "../store/reducers/teams.reducer.js"
 
 import { teamsService } from "../services/teams.service.js"
 
-export function AppHeader(){
+export function AppHeader() {
 
-    var [progress,setProgress]=useState('')
+    var [progress, setProgress] = useState('')
     const dispatch = useDispatch()
     const teams = useSelector(storeState => storeState.teamModule.teams)
     // console.log('teams',teams)
@@ -20,7 +20,9 @@ export function AppHeader(){
     //         })
     // }, [progress])
 
-    return (<section className="todo-header">
-        sup?
-    </section>)
+    return (
+        <section className="app-header">
+            <h1 className="header-title">Mr. Contacts</h1>
+        </section>
+    )
 }

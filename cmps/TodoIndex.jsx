@@ -4,10 +4,9 @@ const { useSelector, useDispatch } = ReactRedux
 
 import { teamsService } from "../services/teams.service.js"
 import { TodoList } from "./TodoList.jsx"
-import { AppHeader } from "./AppHeader.jsx"
 
 import { addTeam, removeTeam, saveTeam } from "../store/actions/teams.action.js"
-import { SET_TEAMS,SET_FILTER_BY,UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
+import { SET_TEAMS, SET_FILTER_BY, UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
 import { TodoFilter } from "./TodoFilter.jsx"
 
 export function TodoIndex() {
@@ -18,7 +17,7 @@ export function TodoIndex() {
 
   useEffect(() => {
     teamsService
-    .query(filterBy)
+      .query(filterBy)
       // TEAM: use dispatch
       .then((teams) => {
         dispatch({ type: SET_TEAMS, teams })
@@ -27,7 +26,7 @@ export function TodoIndex() {
 
   function onRemoveMember(memberId) {
     // teamsService.removeMember(teams[0]._id,memberId)
-    removeTeam(teams[0]._id,memberId)
+    removeTeam(teams[0]._id, memberId)
       .then(() => {
         console.log("todo is gone")
       })
@@ -49,7 +48,6 @@ export function TodoIndex() {
 
   return (
     <section>
-      <AppHeader />
       {/* <TodoFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
       <TodoList
         teams={teams}
