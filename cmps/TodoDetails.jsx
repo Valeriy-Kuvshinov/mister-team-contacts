@@ -6,15 +6,15 @@ const { useParams } = ReactRouterDOM
 
 import { SET_TEAMS } from "../store/store.js"
 
-import { todoService } from "../services/todo.service.js"
+import { todoService } from "../services/teams.service.js"
 
-import { UPDATE_TEAM } from "../store/reducers/todo.reducer.js"
+import { UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
 
 export function TodoDetails(){
 
     const dispatch = useDispatch()
     const params = useParams()
-    const todos = useSelector(storeState => storeState.todoModule.todos)
+    const todos = useSelector(storeState => storeState.teamModule.todos)
 
     useEffect(() => {
         todoService.query()

@@ -4,8 +4,8 @@ import { storageService } from './async-storage.service.js'
 const TEAM_KEY = 'teamsDB'
 var gFilterBy = 'all'
 
-let team1 = _initTeams()
-console.log(team1)
+_initTeams()
+// console.log(team1)
 
 export const teamsService = {
     query,

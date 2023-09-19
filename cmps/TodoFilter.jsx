@@ -1,6 +1,6 @@
 const { useState, useEffect, useRef } = React
 
-import { todoService } from "../services/todo.service.js"
+import { teamsService } from "../services/todo.service.js"
 import { utilService } from "../services/util.service.js"
 
 

@@ -2,31 +2,31 @@ const { useEffect } = React
 
 const { useSelector, useDispatch } = ReactRedux
 
-import { todoService } from "../services/todo.service.js"
+import { teamsService } from "../services/teams.service.js"
 import { TodoList } from "./TodoList.jsx"
 import { AppHeader } from "./AppHeader.jsx"
 
-import { addTodo, removeTodo, saveTodo } from "../store/actions/todo.action.js"
-import { SET_TEAMS,SET_FILTER_BY,UPDATE_TEAM } from "../store/reducers/todo.reducer.js"
+import { addTeam, removeTeam, saveTeam } from "../store/actions/teams.action.js"
+import { SET_TEAMS,SET_FILTER_BY,UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
 import { TodoFilter } from "./TodoFilter.jsx"
 
 export function TodoIndex() {
   const dispatch = useDispatch()
   // TEAM: move to storeState
-  const filterBy = useSelector(storeState => storeState.todoModule.filterBy)
-  const todos = useSelector((storeState) => storeState.todoModule.todos)
+  const filterBy = useSelector(storeState => storeState.teamModule.filterBy)
+  const teams = useSelector((storeState) => storeState.teamModule.teams)
 
   useEffect(() => {
-    todoService
+    teamsService
     .query(filterBy)
       // TEAM: use dispatch
-      .then((todos) => {
-        dispatch({ type: SET_TEAMS, todos })
+      .then((teams) => {
+        dispatch({ type: SET_TEAMS, teams })
       })
   }, [filterBy])
 
-  function onRemoveTodo(todoId) {
-    removeTodo(todoId)
+  function onRemoveTeam(todoId) {
+    removeTeam(todoId)
       .then(() => {
         console.log("todo is gone")
       })
@@ -35,9 +35,9 @@ export function TodoIndex() {
       })
   }
 
-  function onAddTodo() {
-    const todoToSave = todoService.getEmptyTodo()
-    addTodo(todoToSave)
+  function onAddTeam() {
+    const todoToSave = teamsService.getEmptyTeam()
+    addTeam(todoToSave)
       .then(() => {
         console.log("todo is here")
       })
@@ -46,28 +46,28 @@ export function TodoIndex() {
       })
   }
 
-  function changeTodoConfirm(todoId) {
-    var todo = todos.find((todo) => todo._id === todoId)
-    todo.isCompleted = !todo.isCompleted
-    const newTodo = { ...todo }
-    todoService.save(newTodo).then(() => {
-      dispatch({ type: UPDATE_TEAM, todo: newTodo })
-    })
-  }
+  // function changeTodoConfirm(todoId) {
+  //   var todo = teams.find((todo) => todo._id === todoId)
+  //   todo.isCompleted = !todo.isCompleted
+  //   const newTodo = { ...todo }
+  //   teamsService.save(newTodo).then(() => {
+  //     dispatch({ type: UPDATE_TEAM, todo: newTodo })
+  //   })
+  // }
 
-  function onSetFilter(filterBy) {
-    dispatch({ type: SET_FILTER_BY, filterBy })
-  }
+  // function onSetFilter(filterBy) {
+  //   dispatch({ type: SET_FILTER_BY, filterBy })
+  // }
 
   return (
     <section>
       <AppHeader />
-      <TodoFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+      {/* <TodoFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
       <TodoList
-        todos={todos}
-        confirmChange={changeTodoConfirm}
-        onRemoveTodo={onRemoveTodo}
-        onAddTodo={onAddTodo}
+        teams={teams}
+        // confirmChange={changeTodoConfirm}
+        onRemoveTeam={onRemoveTeam}
+        onAddTeam={onAddTeam}
       />
     </section>
   )

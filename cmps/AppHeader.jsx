@@ -2,35 +2,36 @@ const { useEffect, useState, useRef} = React
 
 const { useSelector, useDispatch } = ReactRedux
 
-import { SET_TEAMS } from "../store/reducers/todo.reducer.js"
+import { SET_TEAMS } from "../store/reducers/teams.reducer.js"
 
-import { todoService } from "../services/todo.service.js"
+import { teamsService } from "../services/teams.service.js"
 
 export function AppHeader(){
 
     var [progress,setProgress]=useState('')
     const dispatch = useDispatch()
-    const todos = useSelector(storeState => storeState.todoModule.todos)
+    const teams = useSelector(storeState => storeState.teamModule.teams)
+    // console.log('teams',teams)
 
     useEffect(() => {
-        todoService.query()
-            .then(todos => {
-                dispatch({ type: SET_TEAMS, todos })
+        teamsService.query()
+            .then(teams => {
+                dispatch({ type: SET_TEAMS, teams })
             })
     }, [progress])
 
     var howManyCompleted=0
-    for(var i=0;i<todos.length;i++){
-        if(todos[i].isCompleted===true) howManyCompleted++
+    for(var i=0;i<teams.length;i++){
+        if(teams[i].isCompleted===true) howManyCompleted++
     }
-    progress=`${parseInt((howManyCompleted/todos.length)*100)}%`
+    progress=`${parseInt((howManyCompleted/teams.length)*100)}%`
 
     function showProgress(){
         document.querySelector('.progress').style.width=progress
 
         document.querySelector('.progress').innerText=progress
         if(progress==='100%') console.log('all done')
-        if(progress==='NaN%') document.querySelector('.progress').innerText='no todos'
+        if(progress==='NaN%') document.querySelector('.progress').innerText='no teams'
     }
 
     setTimeout(showProgress,10)
