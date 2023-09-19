@@ -46,19 +46,6 @@ export function TodoIndex() {
       })
   }
 
-  // function changeTodoConfirm(todoId) {
-  //   var todo = teams.find((todo) => todo._id === todoId)
-  //   todo.isCompleted = !todo.isCompleted
-  //   const newTodo = { ...todo }
-  //   teamsService.save(newTodo).then(() => {
-  //     dispatch({ type: UPDATE_TEAM, todo: newTodo })
-  //   })
-  // }
-
-  // function onSetFilter(filterBy) {
-  //   dispatch({ type: SET_FILTER_BY, filterBy })
-  // }
-
   return (
     <section>
       <AppHeader />

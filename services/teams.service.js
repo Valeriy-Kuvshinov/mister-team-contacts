@@ -35,11 +35,12 @@ function remove(teamId) {
     return storageService.remove(TEAM_KEY, teamId)
 }
 
-function save(team) {
-    if (team._id) {
-        return storageService.put(TEAM_KEY, team)
+function save(member) {
+    console.log(member)
+    if (member._id) {
+        return storageService.put(TEAM_KEY, member)
     } else {
-        return storageService.post(TEAM_KEY, team)
+        return storageService.post(TEAM_KEY, member)
     }
 }
 

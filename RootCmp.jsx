@@ -4,11 +4,9 @@ const { Provider } = ReactRedux
 
 // import { AppHeader } from './cmps/AppHeader.jsx'
 // import { AppFooter } from './cmps/AppFooter.jsx'
-import { teamsService } from './services/teams.service.js'
+// import { teamsService } from './services/teams.service.js'
 import { HomePage } from './pages/HomePage.jsx'
-import { TodoDetails } from './cmps/TodoDetails.jsx'
-// import { AboutUs } from './pages/AboutUs.jsx'
-// import { CarIndex } from './pages/CarIndex.jsx'
+import { MemberDetails } from './cmps/MemberDetails.jsx'
 import { store } from './store/store.js'
 
 
@@ -22,8 +20,7 @@ export function App() {
                     <main>
                         <Routes>
                             <Route element={<HomePage />} path="/" />
-                            <Route element={<TodoDetails />} path="/todo/details/:todoId" />
-                            <Route element={<TodoDetails />} path="/todo/details" />
+                            <Route element={<MemberDetails />} path="/team/details/:teamId/:memberId" />
                             {/* <Route element={<CarIndex />} path="/car" /> */}
                         </Routes>
                     </main>

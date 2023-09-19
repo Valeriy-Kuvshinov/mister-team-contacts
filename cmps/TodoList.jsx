@@ -35,10 +35,10 @@ export function TodoList({teams, confirmChange, onAddTodo, onRemoveTodo}){
 
     return (<section>
              <ul className='todo-list'>
-                <li key='bread' className="todo">teams:</li>
+                <li key='bread' className="todo">{teams[0].teamName}</li>
                 {teams[0].teamMembers.map((member)=>
                 <li key={member._id}>
-                <TodoPreview member={member} confirmChange={confirmChange} onRemoveTodo={onRemoveTodo}/>
+                <TodoPreview teamId={teams[0]._id} member={member} confirmChange={confirmChange} onRemoveTodo={onRemoveTodo}/>
                 </li>)}
                 <button onClick={addTodo}>
                      add Todo

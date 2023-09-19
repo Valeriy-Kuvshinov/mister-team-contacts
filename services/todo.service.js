@@ -2,7 +2,7 @@ import { utilService } from "./util.service.js"
 import { storageService } from './async-storage.service.js'
 const TEAM_KEY = 'todoDB'
 var gFilterBy = 'all'
-_createTodos()
+// _createTodos()
 
 export const todoService = {
     query,
