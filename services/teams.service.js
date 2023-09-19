@@ -3,8 +3,6 @@ import { storageService } from './async-storage.service.js'
 
 const TEAM_KEY = 'teamsDB'
 var gFilterBy = { teamName: '', memberName: '', sortKey: '' }
-_initTeams()
-console.log("Teams Service file loaded")
 
 export const teamsService = {
     query,
@@ -12,13 +10,13 @@ export const teamsService = {
     remove,
     save,
     getEmptyTeam,
+    addMemberToTeam,
+    removeMemberFromTeam,
     getDefaultFilter,
     setFilterBy,
     resetFilter,
-    addMember,
-    removeMember,
-    getEmptyTeamMember
 }
+_initTeams()
 
 function query(filterBy = {}) {
     if (!filterBy.teamName) filterBy.teamName = ''
@@ -56,12 +54,8 @@ function remove(teamId) {
 }
 
 function save(team) {
-    console.log(team)
-    // if (team._id) {
-        return storageService.put2(TEAM_KEY, team)
-    // } else {
-    //     return storageService.post(TEAM_KEY, team)
-    // }
+    if (team._id) return storageService.put(TEAM_KEY, team)
+    else return storageService.post(TEAM_KEY, team)
 }
 
 function getEmptyTeam(teamName = 'TeamName') {
@@ -84,74 +78,94 @@ function resetFilter() {
     gFilterBy = { teamName: '', memberName: '', sortKey: '' }
 }
 
-function getEmptyTeamMember(name = "teamMember") {
-    return {
-        name: "name",
-        email: "email",
-        phoneNumber: "number",
-        _id: "",
-        desc: ""
-    }
-}
-
-function addMember(teamId, newMember) {
+function addMemberToTeam(teamId, newMember) {
     return get(teamId).then((team) => {
-        newMember._id = utilService.makeId()
-        team.teamMembers.push(newMember)
-        return save(team)
-    })
-}
-
-function removeMember(teamId, memberId) {
-    return get(teamId).then((team) => {
-        const memberIdx = team.teamMembers.findIndex((m) => m._id === memberId)
-        if (memberIdx > -1) {
-            team.teamMembers.splice(memberIdx, 1)
-            return save(team)
+        if (!team) {
+            throw new Error(`Team with ID ${teamId} not found.`);
         }
-    })
+        newMember._id = utilService.makeId(); // Assuming utilService is imported and provides a unique ID
+        team.teamMembers.push(newMember);
+        console.log('Team to Save:', JSON.stringify(team, null, 2));
+        return save(team);
+    });
 }
 
-function _initTeams() {
-    console.log('Running _initTeams')
-    storageService.query(TEAM_KEY).then(teams => {
-        if (!teams || !teams.length) {
-            const initialTeam = {
+function removeMemberFromTeam(teamId, memberId) {
+    return get(teamId).then((team) => {
+        if (!team) {
+            throw new Error(`Team with ID ${teamId} not found.`);
+        }
+        const memberIdx = team.teamMembers.findIndex((m) => m._id === memberId);
+        if (memberIdx === -1) {
+            throw new Error(`Member with ID ${memberId} not found.`);
+        }
+        team.teamMembers.splice(memberIdx, 1);
+        console.log('Team to Save:', JSON.stringify(team, null, 2));
+        return save(team);
+    });
+}
+
+async function _initTeams() {
+    const teams = await storageService.query(TEAM_KEY)
+    if (!teams || !teams.length) {
+        const initialTeams = [
+            {
                 teamName: "team1",
-                teamDescription:'description',
+                teamDescription: 'Head bakery team, leading the bread production',
                 teamMembers: [
                     {
                         name: "breadrico",
                         email: "breadrico23@gmail.com",
                         phoneNumber: "053-0962835",
-                        _id: "1",
+                        _id: utilService.makeId(),
                         desc: "very trustworthy"
                     },
                     {
                         name: "breadishia",
-                        email: "breadishiaisaweseome@gmail.com",
+                        email: "breadishiaisawesome@gmail.com",
                         phoneNumber: "057-2461842",
-                        _id: "2",
-                        desc: "always bready"
+                        _id: utilService.makeId(),
+                        desc: "look up!"
                     },
                     {
                         name: "breadson",
                         email: "breadson@gmail.com",
                         phoneNumber: "055-2846321",
-                        _id: "3",
+                        _id: utilService.makeId(),
                         desc: "here he go!"
                     },
                     {
                         name: "bready",
                         email: "breadson@hotmail.com",
                         phoneNumber: "055-2846311",
-                        _id: "4",
-                        desc: "look up!"
-                    }
-                ]
+                        _id: utilService.makeId(),
+                        desc: "always bready"
+                    },
+                ],
+            },
+            {
+                teamName: "team2",
+                teamDescription: 'The cake squad, making the best cakes',
+                teamMembers: [
+                    {
+                        name: "cakelisa",
+                        email: "cakelisa@gmail.com",
+                        phoneNumber: "053-1234567",
+                        _id: utilService.makeId(),
+                        desc: "cake master"
+                    },
+                    {
+                        name: "cakebob",
+                        email: "cakebob@gmail.com",
+                        phoneNumber: "057-7654321",
+                        _id: utilService.makeId(),
+                        desc: "always caking"
+                    },
+                ],
             }
-            initialTeam._id = utilService.makeId()
-            storageService.post(TEAM_KEY, initialTeam)
+        ]
+        for (const team of initialTeams) {
+            await storageService.post(TEAM_KEY, team)
         }
-    })
+    }
 }
