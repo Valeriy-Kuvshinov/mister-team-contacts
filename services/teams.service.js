@@ -91,6 +91,7 @@ function addMemberToTeam(teamId, newMember) {
 }
 
 function removeMemberFromTeam(teamId, memberId) {
+    console.log(teamId,' ',memberId)
     return get(teamId).then((team) => {
         if (!team) {
             throw new Error(`Team with ID ${teamId} not found.`);

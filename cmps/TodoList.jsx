@@ -28,7 +28,7 @@ export function TodoList({ teams, confirmChange, onAddMember, onRemoveMember }) 
                 teamId={team._id}
                 member={member}
                 confirmChange={confirmChange}
-                onRemoveMember={() => onRemoveMember(member._id)}
+                onRemoveMember={() => onRemoveMember(team._id, member._id)}
               />
             </li>
           ))}

@@ -3,6 +3,7 @@ const { Link } = ReactRouterDOM
 export function TodoPreview({ teamId, member, onRemoveMember }) {
 
     function removeMember() {
+        // console.log(teamId,' ',member._id)
         onRemoveMember(teamId, member._id);
     }
 
