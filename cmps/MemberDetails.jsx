@@ -1,16 +1,12 @@
-const { useEffect } = React
-
+const { useEffect, useState } = React
 const { useSelector, useDispatch } = ReactRedux
-
 const { useParams } = ReactRouterDOM
-
-import { SET_TEAMS } from "../store/store.js"
-
-import { memberService } from "../services/member.service.js"
-import { teamsService } from "../services/teams.service.js"
-import { UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
+import { SET_TEAMS } from '../store/store.js'
+import { memberService } from '../services/member.service.js'
+import { teamsService } from '../services/teams.service.js'
 
 export function MemberDetails() {
+    const [member, setMember] = useState(null)
 
     const dispatch = useDispatch()
     const params = useParams()
@@ -21,40 +17,46 @@ export function MemberDetails() {
             .then(teams => {
                 dispatch({ type: SET_TEAMS, teams })
             })
-    }, [])
-    const teamId = params.teamId
-    const teamIdx = teams.findIndex(team => team._id === teamId)
-    if (teams[teamIdx] === undefined) return
-    const member = teams[teamIdx].teamMembers.find((member) => member._id === String(params.memberId))
-    // console.log(member)
-    if (member === undefined) return
+    }, [dispatch])
 
-    function showDetails() {
-        document.getElementById('name').value = member.name
-        document.getElementById('email').value = member.email
-        document.getElementById('phoneNumber').value = member.phoneNumber
+    useEffect(() => {
+        if (teams.length > 0) {
+            const teamIdx = teams.findIndex(team => team._id === params.teamId)
+            if (teamIdx !== -1) {
+                const foundTeam = teams[teamIdx]
+                const foundMember = foundTeam.teamMembers.find(m => m._id === String(params.memberId))
+                setMember(foundMember)
+            }
+        }
+    }, [teams, params.teamId, params.memberId])
+
+    const changeMember = () => {
+        if (!member) return
+
+        const updatedMember = {
+            ...member,
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            desc: document.getElementById('desc').value,
+        }
+        setMember(updatedMember)
+        memberService.save(params.teamId, updatedMember)
+            .then(() => {
+                console.log('Member details have been successfully saved.')
+            })
+            .catch(err => {
+                console.error('Failed to save member:', err)
+            })
     }
-
-    function changeMember() {
-        member.name = document.getElementById('name').value
-        member.email = document.getElementById('email').value
-        member.phoneNumber = document.getElementById('phoneNumber').value
-        console.log('changed')
-        const newMember = { ...member }
-        memberService.save(teamIdx, newMember)
-        // .then(()=>{
-        // dispatch({type:UPDATE_TEAM, team: newTeam})})
-    }
-
-    setTimeout(showDetails, 10)
+    if (!member) return null
 
     return (
         <section className='member-details'>
-            <input type='text' id='name' name='name' placeholder='name' onChange={changeMember} />
-            <input type='email' id='email' name='email' placeholder="email" onChange={changeMember} />
-            <input type='text' id='phoneNumber' name='phoneNumber' placeholder="phoneNumber" onChange={changeMember} />
-
-            {/* <button onClick={showDetails}>details</button> */}
+            <input type='text' id='name' name='name' placeholder='Name' value={member.name || ''} onChange={changeMember} />
+            <input type='email' id='email' name='email' placeholder='Email' value={member.email || ''} onChange={changeMember} />
+            <input type='text' id='phoneNumber' name='phoneNumber' placeholder='Phone Number' value={member.phoneNumber || ''} onChange={changeMember} />
+            <input type='text' id='desc' name='desc' placeholder='Description' value={member.desc || ''} onChange={changeMember} />
         </section>
     )
 }

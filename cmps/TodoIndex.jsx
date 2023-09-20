@@ -1,57 +1,50 @@
 const { useEffect } = React
-
 const { useSelector, useDispatch } = ReactRedux
 
 import { teamsService } from "../services/teams.service.js"
 import { TodoList } from "./TodoList.jsx"
-
-import { addTeam, removeTeam, saveTeam } from "../store/actions/teams.action.js"
+import { memberService } from "../services/member.service.js"
 import { SET_TEAMS, SET_FILTER_BY, UPDATE_TEAM } from "../store/reducers/teams.reducer.js"
 import { TodoFilter } from "./TodoFilter.jsx"
 
 export function TodoIndex() {
-  const dispatch = useDispatch()
-  // TEAM: move to storeState
+  const dispatch = useDispatch();
   const filterBy = useSelector(storeState => storeState.teamModule.filterBy)
-  const teams = useSelector((storeState) => storeState.teamModule.teams)
+  const teams = useSelector(storeState => storeState.teamModule.teams)
 
   useEffect(() => {
-    teamsService
-      .query(filterBy)
-      // TEAM: use dispatch
-      .then((teams) => {
+    teamsService.query(filterBy)
+      .then(teams => {
         dispatch({ type: SET_TEAMS, teams })
       })
-  }, [filterBy])
+  }, [filterBy, dispatch])
 
-  function onRemoveMember(memberId) {
-    // teamsService.removeMember(teams[0]._id,memberId)
-    removeTeam(teams[0]._id, memberId)
-      .then(() => {
-        console.log("todo is gone")
+  function onAddMember(teamId) {
+    const memberToSave = memberService.getEmptyTeamMember()
+
+    teamsService.addMemberToTeam(teamId, memberToSave)
+      .then(updatedTeam => {
+        dispatch({ type: UPDATE_TEAM, team: updatedTeam })
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(error => {
+        console.error("Error adding member:", error)
       })
   }
 
-  function onAddMember() {
-    const todoToSave = teamsService.getEmptyTeamMember()
-    addTeam(todoToSave)
-      .then(() => {
-        console.log("todo is here")
+  function onRemoveMember(teamId, memberId) {
+    teamsService.removeMemberFromTeam(teamId, memberId)
+      .then(updatedTeam => {
+        dispatch({ type: UPDATE_TEAM, team: updatedTeam })
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(error => {
+        console.error("Error removing member:", error)
       })
   }
 
   return (
     <section>
-      {/* <TodoFilter filterBy={filterBy} onSetFilter={onSetFilter} /> */}
       <TodoList
         teams={teams}
-        // confirmChange={changeTodoConfirm}
         onRemoveMember={onRemoveMember}
         onAddMember={onAddMember}
       />
